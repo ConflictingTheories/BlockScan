@@ -29,6 +29,7 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     private var getAccounts: Button? = null;
     private var getStorageAt: Button? = null;
     private var getBalance: Button? = null;
+    private var callContract: Button? = null;
     private var textBox: TextView? = null;
 //    private var gRPC: GethRPCCore = GethRPCCore();
 
@@ -53,7 +54,7 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         getStorageAt?.setOnClickListener{ view ->
             val account = "0x53AD1D1443eB95cfE295EC1E160858864F81bf6F"
             val gRPC = GethRPCCore()
-            val RPCCall = gRPC.eth_getStorageAt_API(account);
+            val RPCCall = gRPC.web3_clientVersion_API()//account);
             makeRPCCall(RPCCall);
         }
 
@@ -63,6 +64,15 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             val account = "0x53AD1D1443eB95cfE295EC1E160858864F81bf6F"
             val gRPC = GethRPCCore()
             val RPCCall = gRPC.eth_getBalance(account);
+            makeRPCCall(RPCCall);
+        }
+
+        // GET Balance
+        callContract = findViewById(R.id.button3);
+        callContract?.setOnClickListener{ view ->
+            val account = "0x53AD1D1443eB95cfE295EC1E160858864F81bf6F"
+            val gRPC = GethRPCCore()
+            val RPCCall = gRPC.eth_call(account);
             makeRPCCall(RPCCall);
         }
 
