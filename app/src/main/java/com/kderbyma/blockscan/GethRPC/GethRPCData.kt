@@ -53,11 +53,18 @@ class GethRPCData {
 
     // ASSET Class
     inner class RPCAsset {
+        var id: String? = null;
+        var jsonrpc: String? = null;
+        var result: String? = null;
+
 
         // GENERATOR ASSET EXTRACTION
         internal constructor(Asset: JSONObject) {
             try {
-                //Log.i("JSON_ASSET::", this.ASSET);
+                this.id = Asset.getString("id")
+                this.jsonrpc = Asset.getString("jsonrpc")
+                this.result = Asset.getString("result")
+
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
