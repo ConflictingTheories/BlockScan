@@ -74,21 +74,20 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         val list = ArrayList<String>()
         val gameslist = ArrayList<String>()
+
         accountSelect = findViewById(R.id.spinner)
         gameSelect = findViewById(R.id.spinner2)
-
         try {
             val gRPC = GethRPCCore()
             val AccountsRPCCall = JSONObject(gRPC.eth_account_API().execute().get());
             val filterRPCCall = JSONObject(gRPC.eth_newFilter("LogGameCreated(uint256,address,uint256)",contractAddress).execute().get())
-
             Log.i("Games Filter Created:", filterRPCCall.toString())
             val GamesRPCCall = JSONObject(gRPC.eth_getFilterChanges(filterRPCCall.getString("result")).execute().get())
             Log.i("GAMES --> ", GamesRPCCall.toString())
-
+            // Arrays
             val jsonAccountsArray = AccountsRPCCall.getJSONArray("result")
             val jsonGamesArray = GamesRPCCall.getJSONArray("result")
-
+            // Accounts
             for (i in 0 until jsonAccountsArray.length()) {
                 try {
                     list.add("" + jsonAccountsArray.get(i))
@@ -97,6 +96,7 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                     e.printStackTrace()
                 }
             }
+            // Games
             for (i in 0 until jsonGamesArray.length()) {
                     try {
                         var obj = jsonGamesArray.getJSONObject(i)
@@ -117,9 +117,6 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                         e.printStackTrace()
                     }
             }
-
-            Log.e("", "list.size() : " + list.size)
-
         } catch (e: JSONException) {
             // TODO Auto-generated catch block
             e.printStackTrace()
@@ -132,8 +129,6 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             this,
             android.R.layout.simple_spinner_item, gameslist
         );
-//        accountSelect?.setOnItemSelectedListener(this)
-
         gameSelect?.adapter = gamesAdapter
 
         val adapter = ArrayAdapter<String>(
@@ -141,7 +136,6 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             android.R.layout.simple_spinner_item, list
         );
         accountSelect?.setOnItemSelectedListener(this)
-
         accountSelect?.adapter = adapter
 
         accountPassword = findViewById(R.id.editText)
@@ -231,11 +225,10 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         nav_view.setNavigationItemSelectedListener(this)
 
         val imageView = findViewById<View>(R.id.qrCode) as ImageView
-
-        viewAddress?.setOnClickListener {
+        imageView.setOnClickListener {
             loadPhoto(imageView,400,400)
         }
-        imageView.setOnClickListener {
+        viewAddress?.setOnClickListener {
             loadPhoto(imageView,400,400)
         }
     }
@@ -276,18 +269,23 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     private fun loadPhoto(imageView: ImageView, width:Int, height:Int) {
 
         var tempImageView = imageView;
-
         var imageDialog = AlertDialog.Builder(this);
+
+        var builder = AlertDialog.Builder(this);
         var inflater = layoutInflater;
 
-        var layout = inflater.inflate(R.layout.custom_full_image_dialog, findViewById(R.id.layout_root));
-        var image:ImageView = layout.findViewById(R.id.fullimage);
+//        var dialogView = inflater.inflate(R.layout.custom_full_image_dialog, null);
+        var dialogView = inflater.inflate(R.layout.custom_full_image_dialog, findViewById(R.id.layout_root));
+//
+        builder.setView(dialogView).create().show();
 
-        image.setImageDrawable(tempImageView.getDrawable());
-        imageDialog.setView(layout);
+//        var inflator = layoutInflater
 
-        imageDialog.create();
-        imageDialog.show();
+        var image:ImageView = dialogView.findViewById(R.id.fullimage);
+        image.setImageDrawable(tempImageView.drawable);
+//
+//        imageDialog.create();
+//        imageDialog.show();
     }
 
     fun makeRPCCall(accountCall: CallAPI?) {
