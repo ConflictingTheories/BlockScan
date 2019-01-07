@@ -48,6 +48,7 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     private var accountSelect: Spinner? = null;
     private var gameSelect: Spinner? = null;
     private var viewAddress: Button? = null;
+    private var RND: Button? = null
     private var ROCK: Button? = null
     private var PAPER: Button? = null
     private var SCISSORS: Button? = null
@@ -170,9 +171,18 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
 
         // ROCK
+        RND = findViewById(R.id.ROCK2);
+        RND?.setOnClickListener{ view ->
+            selection = "0"
+            RND?.setBackgroundColor(getResources().getColor(R.color.colorPrimary))
+            ROCK?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
+            PAPER?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
+            SCISSORS?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
+        }
         ROCK = findViewById(R.id.ROCK);
         ROCK?.setOnClickListener{ view ->
             selection = "1"
+            RND?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
             ROCK?.setBackgroundColor(getResources().getColor(R.color.colorPrimary))
             PAPER?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
             SCISSORS?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
@@ -180,7 +190,8 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         // PAPER
         PAPER = findViewById(R.id.PAPER);
         PAPER?.setOnClickListener{ view ->
-            selection = "1"
+            selection = "2"
+            RND?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
             ROCK?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
             PAPER?.setBackgroundColor(getResources().getColor(R.color.colorPrimary))
             SCISSORS?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
@@ -188,7 +199,8 @@ class BlockScanMain : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         // PAPER
         SCISSORS = findViewById(R.id.SCISSORS);
         SCISSORS?.setOnClickListener{ view ->
-            selection = "1"
+            selection = "3"
+            RND?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
             ROCK?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
             PAPER?.setBackgroundColor(getResources().getColor(R.color.button_material_light))
             SCISSORS?.setBackgroundColor(getResources().getColor(R.color.colorPrimary))
